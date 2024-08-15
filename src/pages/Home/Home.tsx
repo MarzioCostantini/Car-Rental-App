@@ -17,7 +17,7 @@ const Home = () => {
             <main className={`layout ${sidbarInfo?.sideBar ? "show-sidebar" : "hide-sidebar"}`}>
                 {sidbarInfo?.sideBar != false && <FilterBar />}
                 <div>
-                    <Banner />
+                    {/* <Banner /> */}
                     <Form />
                     <div className="btn-area">
                         <FilterButton />

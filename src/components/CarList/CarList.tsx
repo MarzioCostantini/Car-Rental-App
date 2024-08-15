@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./CarList.css";
 import { CarContext, FilterdCarsContext, FormDataContext, UserFilterContext } from "../../Context/context";
 import CarItem from "../CarItem/CarItem";
+import { Car } from "../../Car";
 
 const CarList = () => {
     const carData = useContext(CarContext);
@@ -9,8 +10,14 @@ const CarList = () => {
     const formData = useContext(FormDataContext);
     const filterdCars = useContext(FilterdCarsContext);
 
-    const [showCars, setShowCars] = useState<number>(15);
 
+    const [showCars, setShowCars] = useState<number>(15);
+    const [locationCarsState, setLocationCarsState] = useState<Car[] | null>(null)
+
+    console.log("Autos nach Location Gefiltert", locationCarsState);
+
+
+    // # Filter nach Location als Basisdaten
     useEffect(() => {
         // Überprüfen, ob picUpLocation definiert ist
         const picUpLocation = formData?.formData?.picUpLocation;
@@ -19,36 +26,47 @@ const CarList = () => {
             return;
         }
 
-        //! Filtert die Autos nach Location
+        // Filtert die Autos nach Location
         const locationCars = carData?.cars?.filter((item) =>
             item.locations.includes(picUpLocation)
         ) || [];
 
-        //! Filtert die Autos nach Fahrzeugtyp
+        filterdCars?.setFilterdCars(locationCars)
+        setLocationCarsState(locationCars)
+
+    }, [formData?.formData?.picUpLocation, filterUser?.userFilter]);
+
+    // ! Filter Nach Typ in den locationCarsState
+    useEffect(() => {
+        if (locationCarsState === null) {
+            return
+        }
+
         const kfzTypes = filterUser?.userFilter?.type || [];
 
-        const typeCars = locationCars.filter(car =>
+        const typeCars = locationCarsState.filter(car =>
             kfzTypes.length > 0 ? kfzTypes.includes(car.vehicleType) : true
         );
 
-        // ! Filtert die Auto nach Farbe
-        const kfzColor = filterUser?.userFilter?.colors
+        filterdCars?.setFilterdCars(typeCars);
 
-        console.log({ kfzColor });
+    }, [filterUser?.userFilter?.type]);
 
+    // ! Filter Nach Farbe in den locationCarsState
+    useEffect(() => {
+        if (locationCarsState === null) {
+            return
+        }
 
-        // Kombiniere die Filter-Ergebnisse so, dass nur Autos bleiben, die beide Kriterien erfüllen
-        const combinedCars = typeCars;
+        const kfzColors = filterUser?.userFilter?.colors || [];
 
-        console.log("Gefilterte Autos nach Standort und Fahrzeugtyp:", combinedCars);
+        const colorCars = locationCarsState.filter(car =>
+            kfzColors.length > 0 ? kfzColors.includes(car.colors) : true
+        );
 
-        // Setze die gefilterten Autos in den Zustand
-        filterdCars?.setFilterdCars(combinedCars);
+        filterdCars?.setFilterdCars(colorCars);
 
-    }, [formData?.formData?.picUpLocation, filterUser?.userFilter, carData?.cars]);
-
-
-
+    }, [filterUser?.userFilter?.colors]);
 
 
     return (

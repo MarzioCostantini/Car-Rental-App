@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { ExtraCarInfoContext, UserFilterContext } from "../../Context/context";
+import { ExtraCarInfoContext, UserFilterContext, FormDataContext } from "../../Context/context";
 import "./FilterBar.css";
 import { UserFilterInterface } from "../../UserFilter";
 
 const FilterBar = () => {
     const filterOption = useContext(ExtraCarInfoContext);
     const filterData = useContext(UserFilterContext);
+    const formData = useContext(FormDataContext);
 
     const isLoading = !filterOption || !filterOption.extraCarInfo || !filterOption.extraCarInfo.types || !filterOption.extraCarInfo.colors || !filterOption.extraCarInfo.drivesType || !filterOption.extraCarInfo.gear;
 
-    // Initialisiere die Filter mit den Werten aus dem Kontext oder setze alle Checkboxen standardmäßig auf ausgewählt
     const [priceRange, setPriceRange] = useState<number>(filterData?.userFilter?.priceDay || 450);
     const [selectedTypes, setSelectedTypes] = useState<string[]>(filterData?.userFilter?.type || []);
     const [selectedColors, setSelectedColors] = useState<string[]>(filterData?.userFilter?.colors || []);
@@ -34,6 +34,17 @@ const FilterBar = () => {
         }
     }, [filterOption]);
 
+    // Reset der Checkboxen, wenn sich die picUpLocation ändert
+    useEffect(() => {
+        if (filterOption && filterOption.extraCarInfo) {
+            setSelectedTypes(filterOption.extraCarInfo.types);
+            setSelectedColors(filterOption.extraCarInfo.colors);
+            setSelectedDriveTypes(filterOption.extraCarInfo.drivesType);
+            setSelectedGears(filterOption.extraCarInfo.gear);
+            setPriceRange(450); // Setze den Preisbereich ebenfalls zurück, falls gewünscht
+        }
+    }, [formData?.formData?.picUpLocation]);
+
     // Funktion, um die aktuellen Filtereinstellungen im Kontext zu speichern
     useEffect(() => {
         let newData: UserFilterInterface = {
@@ -51,8 +62,15 @@ const FilterBar = () => {
         setPriceRange(Number(event.target.value));
     };
 
-    const handleCheckboxChange = (setSelectedFunction: React.Dispatch<React.SetStateAction<string[]>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckboxChange = (setSelectedFunction: React.Dispatch<React.SetStateAction<string[]>>, currentSelection: string[]) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, checked } = event.target;
+
+        // Überprüfe, ob es bereits nur eine ausgewählte Option gibt
+        if (!checked && currentSelection.length === 1) {
+            alert("Mindestens eine Option muss ausgewählt bleiben.");
+            return; // Verhindere das Abwählen
+        }
+
         setSelectedFunction(prevSelected =>
             checked ? [...prevSelected, id] : prevSelected.filter(item => item !== id)
         );
@@ -72,7 +90,7 @@ const FilterBar = () => {
                                     type="checkbox"
                                     id={item}
                                     checked={selectedTypes.includes(item)}
-                                    onChange={handleCheckboxChange(setSelectedTypes)}
+                                    onChange={handleCheckboxChange(setSelectedTypes, selectedTypes)}
                                 />
                                 <label htmlFor={item}>{item}</label>
                             </div>
@@ -86,7 +104,7 @@ const FilterBar = () => {
                                     type="checkbox"
                                     id={item}
                                     checked={selectedColors.includes(item)}
-                                    onChange={handleCheckboxChange(setSelectedColors)}
+                                    onChange={handleCheckboxChange(setSelectedColors, selectedColors)}
                                 />
                                 <label htmlFor={item}>{item}</label>
                             </div>
@@ -100,7 +118,7 @@ const FilterBar = () => {
                                     type="checkbox"
                                     id={item}
                                     checked={selectedDriveTypes.includes(item)}
-                                    onChange={handleCheckboxChange(setSelectedDriveTypes)}
+                                    onChange={handleCheckboxChange(setSelectedDriveTypes, selectedDriveTypes)}
                                 />
                                 <label htmlFor={item}>{item}</label>
                             </div>
@@ -114,7 +132,7 @@ const FilterBar = () => {
                                     type="checkbox"
                                     id={item}
                                     checked={selectedGears.includes(item)}
-                                    onChange={handleCheckboxChange(setSelectedGears)}
+                                    onChange={handleCheckboxChange(setSelectedGears, selectedGears)}
                                 />
                                 <label htmlFor={item}>{item}</label>
                             </div>
