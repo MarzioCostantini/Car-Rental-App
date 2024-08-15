@@ -67,8 +67,20 @@ const CarList = () => {
         }
 
         // !Filter nach Preis
+        const kfzPrice = filterUser?.userFilter?.priceDay
+        console.log(kfzPrice);
 
-        // Weitere Filter können hier hinzugefügt werden
+        if (kfzPrice === undefined) {
+            return
+        }
+
+        if (kfzPrice > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzPrice >= car.pricePerDay
+
+            )
+        }
+
 
         filterdCars?.setFilterdCars(filteredCars);
 
