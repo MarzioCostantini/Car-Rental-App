@@ -13,6 +13,11 @@ const CarList = () => {
     const [showCars, setShowCars] = useState<number>(15);
     const [locationCarsState, setLocationCarsState] = useState<Car[] | null>(null);
 
+
+    console.log(filterdCars?.filterdCars);
+
+
+
     // # Filter nach Location als Basisdaten
     useEffect(() => {
         const picUpLocation = formData?.formData?.picUpLocation;
@@ -53,11 +58,14 @@ const CarList = () => {
 
         // !Filtert nach DriveType
         const kfzDriveType = filterUser?.userFilter?.drivesType || []
-        if (kfzDriveType.length > 0) {
-            filteredCars = filteredCars.filter(car =>
-                kfzDriveType.includes(car.fuel)
-            )
-        }
+
+        console.log({ kfzDriveType });
+
+        // if (kfzDriveType.length > 0) {
+        //     filteredCars = filteredCars.filter(car =>
+        //         kfzDriveType.includes(car.fuel)
+        //     )
+        // }
 
         // !Filter nach Gear
         const kfzGear = filterUser?.userFilter?.gear || []
@@ -82,6 +90,8 @@ const CarList = () => {
         filterdCars?.setFilterdCars(filteredCars);
 
     }, [filterUser?.userFilter, locationCarsState]);
+
+
 
     return (
         <>

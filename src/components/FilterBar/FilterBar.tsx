@@ -10,44 +10,16 @@ const FilterBar = () => {
 
     const isLoading = !filterOption || !filterOption.extraCarInfo || !filterOption.extraCarInfo.types || !filterOption.extraCarInfo.colors || !filterOption.extraCarInfo.drivesType || !filterOption.extraCarInfo.gear;
 
+    // Initialisiere den Zustand direkt beim Laden
     const [priceRange, setPriceRange] = useState<number>(filterData?.userFilter?.priceDay || 450);
     const [selectedTypes, setSelectedTypes] = useState<string[]>(filterData?.userFilter?.type || []);
     const [selectedColors, setSelectedColors] = useState<string[]>(filterData?.userFilter?.colors || []);
     const [selectedDriveTypes, setSelectedDriveTypes] = useState<string[]>(filterData?.userFilter?.drivesType || []);
     const [selectedGears, setSelectedGears] = useState<string[]>(filterData?.userFilter?.gear || []);
 
-    // Setze standardmäßig alle Checkboxen auf ausgewählt, wenn noch keine Auswahl getroffen wurde
+    // Effekt, um die Filtereinstellungen im Kontext zu speichern, wenn sich der Zustand ändert
     useEffect(() => {
-        if (filterOption && filterOption.extraCarInfo) {
-            if (selectedTypes.length === 0) {
-                setSelectedTypes(filterOption.extraCarInfo.types);
-            }
-            if (selectedColors.length === 0) {
-                setSelectedColors(filterOption.extraCarInfo.colors);
-            }
-            if (selectedDriveTypes.length === 0) {
-                setSelectedDriveTypes(filterOption.extraCarInfo.drivesType);
-            }
-            if (selectedGears.length === 0) {
-                setSelectedGears(filterOption.extraCarInfo.gear);
-            }
-        }
-    }, [filterOption]);
-
-    // Reset der Checkboxen, wenn sich die picUpLocation ändert
-    useEffect(() => {
-        if (filterOption && filterOption.extraCarInfo) {
-            setSelectedTypes(filterOption.extraCarInfo.types);
-            setSelectedColors(filterOption.extraCarInfo.colors);
-            setSelectedDriveTypes(filterOption.extraCarInfo.drivesType);
-            setSelectedGears(filterOption.extraCarInfo.gear);
-            setPriceRange(450); // Setze den Preisbereich ebenfalls zurück, falls gewünscht
-        }
-    }, [formData?.formData?.picUpLocation]);
-
-    // Funktion, um die aktuellen Filtereinstellungen im Kontext zu speichern
-    useEffect(() => {
-        let newData: UserFilterInterface = {
+        const newData: UserFilterInterface = {
             type: selectedTypes,
             colors: selectedColors,
             gear: selectedGears,
@@ -57,6 +29,18 @@ const FilterBar = () => {
 
         filterData?.setUserFilter(newData);
     }, [priceRange, selectedTypes, selectedColors, selectedDriveTypes, selectedGears]);
+
+
+    // Effekt, um die Filter zurückzusetzen, wenn sich die picUpLocation ändert
+    useEffect(() => {
+        if (filterOption && filterOption.extraCarInfo) {
+            setSelectedTypes(filterOption.extraCarInfo.types);
+            setSelectedColors(filterOption.extraCarInfo.colors);
+            setSelectedDriveTypes(filterOption.extraCarInfo.drivesType);
+            setSelectedGears(filterOption.extraCarInfo.gear);
+            setPriceRange(450); // Setze den Preisbereich ebenfalls zurück, falls gewünscht
+        }
+    }, [formData?.formData?.picUpLocation]);
 
     const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPriceRange(Number(event.target.value));

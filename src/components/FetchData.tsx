@@ -11,7 +11,6 @@ const FetchData = () => {
     }
 
 
-    console.log(extraCarInfo);
 
 
     // ! Autos Fetchen
