@@ -10,64 +10,69 @@ const CarList = () => {
     const formData = useContext(FormDataContext);
     const filterdCars = useContext(FilterdCarsContext);
 
-
     const [showCars, setShowCars] = useState<number>(15);
-    const [locationCarsState, setLocationCarsState] = useState<Car[] | null>(null)
-
-    console.log("Autos nach Location Gefiltert", locationCarsState);
-
+    const [locationCarsState, setLocationCarsState] = useState<Car[] | null>(null);
 
     // # Filter nach Location als Basisdaten
     useEffect(() => {
-        // Überprüfen, ob picUpLocation definiert ist
         const picUpLocation = formData?.formData?.picUpLocation;
         if (!picUpLocation) {
-            // Wenn picUpLocation nicht gesetzt ist, beende den useEffect hier
             return;
         }
 
-        // Filtert die Autos nach Location
         const locationCars = carData?.cars?.filter((item) =>
             item.locations.includes(picUpLocation)
         ) || [];
 
-        filterdCars?.setFilterdCars(locationCars)
-        setLocationCarsState(locationCars)
+        setLocationCarsState(locationCars); // Behalte die nach Standort gefilterten Autos bei
+        filterdCars?.setFilterdCars(locationCars); // Initialisiere gefilterte Autos
+    }, [formData?.formData?.picUpLocation, carData?.cars]);
 
-    }, [formData?.formData?.picUpLocation, filterUser?.userFilter]);
-
-    // ! Filter Nach Typ in den locationCarsState
+    // # Kombiniere alle aktiven Filter
     useEffect(() => {
-        if (locationCarsState === null) {
-            return
-        }
+        if (locationCarsState === null) return;
 
+        let filteredCars = locationCarsState;
+
+        //!Filter nach Typ
         const kfzTypes = filterUser?.userFilter?.type || [];
-
-        const typeCars = locationCarsState.filter(car =>
-            kfzTypes.length > 0 ? kfzTypes.includes(car.vehicleType) : true
-        );
-
-        filterdCars?.setFilterdCars(typeCars);
-
-    }, [filterUser?.userFilter?.type]);
-
-    // ! Filter Nach Farbe in den locationCarsState
-    useEffect(() => {
-        if (locationCarsState === null) {
-            return
+        if (kfzTypes.length > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzTypes.includes(car.vehicleType)
+            );
         }
 
+        // !Filter nach Farbe
         const kfzColors = filterUser?.userFilter?.colors || [];
+        if (kfzColors.length > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzColors.includes(car.colors)
+            );
+        }
 
-        const colorCars = locationCarsState.filter(car =>
-            kfzColors.length > 0 ? kfzColors.includes(car.colors) : true
-        );
+        // !Filtert nach DriveType
+        const kfzDriveType = filterUser?.userFilter?.drivesType || []
+        if (kfzDriveType.length > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzDriveType.includes(car.fuel)
+            )
+        }
 
-        filterdCars?.setFilterdCars(colorCars);
+        // !Filter nach Gear
+        const kfzGear = filterUser?.userFilter?.gear || []
+        if (kfzGear.length > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzGear.includes(car.gearType)
+            )
+        }
 
-    }, [filterUser?.userFilter?.colors]);
+        // !Filter nach Preis
 
+        // Weitere Filter können hier hinzugefügt werden
+
+        filterdCars?.setFilterdCars(filteredCars);
+
+    }, [filterUser?.userFilter, locationCarsState]); // Die Filter hängen jetzt auch von locationCarsState ab
 
     return (
         <>
