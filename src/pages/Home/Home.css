@@ -1,0 +1,22 @@
+/* "show-sidebar" : "hide-sidebar" */
+
+.layout {
+    display: grid;
+    gap: 30px;
+
+}
+
+.show-sidebar {
+    grid-template-columns: 0.5fr 3fr;
+}
+
+.hide-sidebar {
+    grid-template-columns: 1fr;
+}
+
+
+.btn-area {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+}

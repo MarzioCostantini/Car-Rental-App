@@ -1,0 +1,96 @@
+:root {
+  --main-color: #3563e9;
+  --hover: #3562e9e9;
+  --text-color: #1a202c;
+  --blue-light: #90a3bf;
+  --blue-superlight: hsla(216, 27%, 66%, 0.2);
+  --main-alt-color: #54a6ff;
+  --hover-alt: #54a7ffa4;
+  --bg-color: #f6f7f9;
+  --red: #ed3f3f;
+  --gray: #596780;
+  --yellow: #fbad39;
+  --white: #fff;
+  --gray-light: hsla(213, 46%, 84%, 0.402);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+@font-face {
+  font-family: JakartaSans;
+  src: url("./fonts/PlusJakartaSans-VariableFont_wght.ttf");
+}
+
+
+html,
+input {
+  font-family: JakartaSans, Arial, Helvetica, sans-serif;
+  accent-color: var(--main-color);
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+.icon-circle {
+  height: 80px;
+  width: 80px;
+
+}
+
+main {
+  padding: 0 30px;
+  background-color: var(--bg-color);
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.btn-main {
+  background-color: var(--main-color);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-main:hover {
+  background-color: var(--hover);
+}
+
+.btn-main.filter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-alt {
+  background-color: var(--main-alt-color);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-alt:hover {
+  background-color: var(--hover-alt);
+}

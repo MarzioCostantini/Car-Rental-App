@@ -1,0 +1,38 @@
+.car-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.btn-more-wrp {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Verteilung zwischen den Elementen */
+    margin-bottom: 60px;
+}
+
+.btn-more-wrp .btn-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    /* Damit der Button in der Mitte bleibt */
+}
+
+.btn-more-wrp h4 {
+    margin: 0;
+    /* Entfernt den Standardabstand */
+}
+
+@media screen and (max-width: 950px) {
+    .car-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 690px) {
+    .car-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

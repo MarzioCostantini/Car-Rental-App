@@ -1,0 +1,45 @@
+.filter-bar {
+    padding: 20px;
+    background-color: var(--white);
+    margin-left: -30px;
+
+}
+
+.filter-bar section {
+    margin-bottom: 20px;
+}
+
+.filter-bar h3 {
+    font-size: 12px;
+    /* font-weight: 400; */
+    color: var(--blue-light);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.checkbox-wrapper label {
+    font-size: 14px;
+    color: var(--text-black);
+}
+
+.filter-bar input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.filter-bar span {
+    display: block;
+    font-size: 14px;
+    color: var(--text-black);
+    text-align: right;
+}

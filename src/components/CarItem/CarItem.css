@@ -1,0 +1,74 @@
+.car-item {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+.car-item .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+}
+
+.hero svg {
+    fill: none;
+    stroke: var(--blue-light);
+    cursor: pointer;
+}
+
+.car-item h6 {
+    color: var(--blue-light);
+    margin-bottom: 10px;
+}
+
+
+.photo {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.photo div {
+    background-color: hsla(0, 0%, 100%, 0.813);
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 -20px 25px hsla(0, 0%, 100%, 0.823);
+}
+
+.photo img {
+    border-radius: 10px;
+}
+
+.icons {
+    margin-bottom: 30px;
+}
+
+.car-item .icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-item .icons div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: var(--blue-light);
+    font-size: 14px;
+}
+
+.car-item .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-item .footer span {
+    font-size: 14px;
+    color: var(--blue-light);
+}
