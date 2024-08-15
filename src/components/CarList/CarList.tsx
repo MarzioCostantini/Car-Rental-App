@@ -61,11 +61,11 @@ const CarList = () => {
 
         console.log({ kfzDriveType });
 
-        // if (kfzDriveType.length > 0) {
-        //     filteredCars = filteredCars.filter(car =>
-        //         kfzDriveType.includes(car.fuel)
-        //     )
-        // }
+        if (kfzDriveType.length > 0) {
+            filteredCars = filteredCars.filter(car =>
+                kfzDriveType.includes(car.fuel)
+            )
+        }
 
         // !Filter nach Gear
         const kfzGear = filterUser?.userFilter?.gear || []
