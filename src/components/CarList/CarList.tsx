@@ -32,6 +32,7 @@ const CarList = () => {
     useEffect(() => {
         if (locationCarsState === null) return;
 
+        // Muss ich machen da locationCarsState eine constante ist (state)
         let filteredCars = locationCarsState;
 
         //!Filter nach Typ
@@ -68,23 +69,19 @@ const CarList = () => {
 
         // !Filter nach Preis
         const kfzPrice = filterUser?.userFilter?.priceDay
-        console.log(kfzPrice);
 
-        if (kfzPrice === undefined) {
-            return
-        }
+        if (kfzPrice === undefined) return
+
 
         if (kfzPrice > 0) {
             filteredCars = filteredCars.filter(car =>
                 kfzPrice >= car.pricePerDay
-
             )
         }
 
-
         filterdCars?.setFilterdCars(filteredCars);
 
-    }, [filterUser?.userFilter, locationCarsState]); // Die Filter hängen jetzt auch von locationCarsState ab
+    }, [filterUser?.userFilter, locationCarsState]);
 
     return (
         <>
